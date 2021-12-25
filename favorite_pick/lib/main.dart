@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:favorite_pick/screens/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:favorite_pick/data.dart';
+
+import 'package:favorite_pick/screens/home.dart';
+import 'package:favorite_pick/screens/start.dart';
+import 'package:favorite_pick/screens/game_play.dart';
+import 'package:favorite_pick/screens/results.dart';
 
 
 void main() {
@@ -23,10 +27,9 @@ class FavoritePick extends StatelessWidget {
           title: 'Favorite Pick',
           routes: {
             '/': (context) =>  const HomeScreen(),
-            '/football': (context) =>  const HomeScreen(),
-            '/basketball': (context) =>  const HomeScreen(),
-            '/iceHockey': (context) =>  const HomeScreen(),
-            '/baseball': (context) =>  const HomeScreen(),
+            '/start': (context) =>  const StartScreen(),
+            '/gamePlay': (context) => const GamePlayScreen(),
+            '/results': (context) => const Results(),
           },
           initialRoute: '/',
         ),
