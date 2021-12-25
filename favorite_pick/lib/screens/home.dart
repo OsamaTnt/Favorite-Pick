@@ -1,3 +1,4 @@
+import 'package:favorite_pick/screens/start.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,10 +39,7 @@ class HomeScreen extends StatelessWidget{
                 width: double.infinity,
                 child: sportMenuCard(
                   text: data.sports[index],
-                  iconPath: (data.sports[index]=='Football')? 'images/SI_Soccer.png':
-                  (data.sports[index]=='Basketball')? 'images/SI_Basketball.png':
-                  (data.sports[index]=='Ice Hockey')? 'images/SI_IceHockey.png':
-                  (data.sports[index]=='Baseball')? 'images/SI_Baseball.png': '',
+                  iconPath: data.getSportIconPath(data.sports[index]),
                 ),
               ):
               SizedBox(height: 2.h),
@@ -59,32 +57,40 @@ class HomeScreen extends StatelessWidget{
   }
 
   Widget sportMenuCard({String? text, String? iconPath}){
-    return Material(
-      type: MaterialType.card,
-      color: const Color(0xff0D5C95),
-      child: InkWell(
-        child: Center(
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical:0, horizontal:32.w),
-            leading: Image(
-              image: AssetImage('$iconPath'),
-              height: 32.h,
-              width: 32.w,
-            ),
-            title: Text(
-              '$text',
-              style: GoogleFonts.manrope(
-                fontWeight: FontWeight.w600,
-                fontSize: 21.sp,
-                color: const Color(0xffFFFFFF).withOpacity(0.88),
+    return Builder(
+      builder: (context) =>
+      Material(
+        type: MaterialType.card,
+        color: const Color(0xff0D5C95),
+        child: InkWell(
+          child: Center(
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical:0, horizontal:32.w),
+              leading: Image(
+                image: AssetImage('$iconPath'),
+                height: 32.h,
+                width: 32.w,
+              ),
+              title: Text(
+                '$text',
+                style: GoogleFonts.manrope(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 21.sp,
+                  color: const Color(0xffFFFFFF).withOpacity(0.88),
+                ),
               ),
             ),
           ),
-          
+          onTap: (){
+            Provider.of<Data>(context, listen:false).selectSport(text);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StartScreen(sportName: text),
+              ),
+            );
+          },
         ),
-        onTap: (){
-          ///TO DO Navigate to sport n screen.
-        },
       ),
     );
   }

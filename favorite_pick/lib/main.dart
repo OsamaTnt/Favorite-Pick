@@ -20,7 +20,7 @@ class FavoritePick extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ Provider(create: (_) => Data()), ],
+      providers: [ ChangeNotifierProvider(create: (_) => Data()), ],
       child: ScreenUtilInit(
         designSize: const Size(360, 640),
         builder: () => MaterialApp(
@@ -31,7 +31,7 @@ class FavoritePick extends StatelessWidget {
             '/gamePlay': (context) => const GamePlayScreen(),
             '/results': (context) => const Results(),
           },
-          initialRoute: '/',
+          initialRoute: '/start',
         ),
       ),
     );
