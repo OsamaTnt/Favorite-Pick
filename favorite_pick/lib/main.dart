@@ -29,7 +29,7 @@ class FavoritePick extends StatelessWidget {
             '/': (context) =>  const HomeScreen(),
             '/start': (context) =>  const StartScreen(),
             '/gamePlay': (context) => const GamePlayScreen(),
-            '/results': (context) => const Results(),
+            '/results': (context) => const ResultScreen(),
           },
           initialRoute: '/start',
         ),

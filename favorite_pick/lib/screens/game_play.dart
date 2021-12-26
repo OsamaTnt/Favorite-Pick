@@ -155,7 +155,7 @@ class GamePlayScreen extends StatelessWidget{
                     context,
                     MaterialPageRoute(
                       builder: (context){
-                        return const Results();
+                        return const ResultScreen();
                       },
                     ),
                   );
