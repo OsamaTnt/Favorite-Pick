@@ -30,27 +30,126 @@ class GamePlayScreen extends StatelessWidget{
             colors: [Color(0xff395872), Color(0xff0D3454)],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 64.h,
-              width: double.infinity,
-              color: const Color(0xff2179B8).withOpacity(0.88),
-              alignment: Alignment.center,
-              child: Text(
-                '1/128',  ///TO DO: update this number automatically based on data.
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                height: 64.h,
+                width: double.infinity,
+                color: const Color(0xff2179B8).withOpacity(0.88),
+                alignment: Alignment.center,
+                child: Text(
+                  '1/128',  ///TO DO: update this number automatically based on data.
+                  style: GoogleFonts.manrope(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 21.sp,
+                    color: const Color(0xffFFFFFF).withOpacity(0.88),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 240.h,
+                          width: double.infinity,
+                          child: teamCard(
+                            teamName: 'Manchester United',
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 240.h,
+                          width: double.infinity,
+                          child: teamCard(
+                            teamName: 'Paris Saint-Germain',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 48.h),
+                    child: Image(
+                      height: 56.h,
+                      width: 88.w,
+                      image: const AssetImage('images/vs1.png'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget teamCard({String? teamName}){
+    return Material(
+      color: const Color(0xff0D5C95).withOpacity(0.58),
+      child: InkWell(
+        child: Padding(
+          padding: EdgeInsets.only(top: 48.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Consumer<Data>(
+                builder: (context, data, widget) =>
+                Image(
+                  height: 56.h,
+                  width: 76.w,
+                  image: AssetImage('${data.getTeamIconPath(teamName)}'),
+                ),
+              ),
+              SizedBox(
+                height: 12.h,
+              ),
+              Text(
+                '$teamName',
                 style: GoogleFonts.manrope(
                   fontWeight: FontWeight.w700,
-                  fontSize: 21.sp,
+                  fontSize: 13.sp,
                   color: const Color(0xffFFFFFF).withOpacity(0.88),
                 ),
                 textAlign: TextAlign.center,
               ),
-            ),
-          ],
+              SizedBox(
+                height: 28.h,
+              ),
+              Consumer<Data>(
+                builder: (context, data, widget) =>
+                Image(
+                  width: 46.w,
+                  height: 28.h,
+                  image: AssetImage(
+                    '${data.getCountryIconPath(teamName)}',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
+        onTap: (){
+          Future.delayed(
+            const Duration(milliseconds: 250),
+            (){
+              ///TODO..
+            },
+          );
+        },
       ),
     );
   }

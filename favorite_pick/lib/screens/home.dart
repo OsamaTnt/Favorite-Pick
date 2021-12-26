@@ -82,12 +82,17 @@ class HomeScreen extends StatelessWidget{
             ),
           ),
           onTap: (){
-            Provider.of<Data>(context, listen:false).selectSport(text);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => StartScreen(sportName: text),
-              ),
+            Future.delayed(
+              const Duration(milliseconds: 250),
+              (){
+                Provider.of<Data>(context, listen:false).selectSport(text);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StartScreen(sportName: text),
+                  ),
+                );
+              },
             );
           },
         ),

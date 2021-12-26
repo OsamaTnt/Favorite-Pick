@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 
 
@@ -12,10 +13,29 @@ class Data extends ChangeNotifier{
   }
 
   String? getSportIconPath(String? sportName){
-    return (sportName == 'Football')? 'images/SI_Soccer.png':
-    (sportName == 'Basketball')? 'images/SI_Basketball.png':
-    (sportName == 'Ice Hockey')? 'images/SI_IceHockey.png':
-    (sportName == 'Baseball')? 'images/SI_Baseball.png': '';
+    switch(sportName){
+      case 'Football': return 'images/SI_Soccer.png';
+      case 'Basketball': return 'images/SI_Basketball.png';
+      case 'Ice Hockey': return 'images/SI_IceHockey.png';
+      case 'Baseball': return 'images/SI_Baseball.png';
+      default : return '';
+    }
+  }
+
+  String? getTeamIconPath(String? teamName){
+    switch(teamName){
+      case 'Paris Saint-Germain': return 'images/Paris Saint-Germain.png';
+      case 'Manchester United': return 'images/Manchester United.png';
+      default : return '';
+    }
+  }
+
+  String? getCountryIconPath(String? teamName){
+    switch(teamName){
+      case 'Paris Saint-Germain': return 'images/France.png';
+      case 'Manchester United': return 'images/Uk.png';
+      default : return '';
+    }
   }
 
 }
