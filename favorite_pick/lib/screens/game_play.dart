@@ -1,4 +1,5 @@
 import 'package:favorite_pick/data.dart';
+import 'package:favorite_pick/screens/results.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,61 +97,74 @@ class GamePlayScreen extends StatelessWidget{
     );
   }
 
+
   Widget teamCard({String? teamName}){
-    return Material(
-      color: const Color(0xff0D5C95).withOpacity(0.58),
-      child: InkWell(
-        child: Padding(
-          padding: EdgeInsets.only(top: 48.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Consumer<Data>(
-                builder: (context, data, widget) =>
-                Image(
-                  height: 56.h,
-                  width: 76.w,
-                  image: AssetImage('${data.getTeamIconPath(teamName)}'),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              Text(
-                '$teamName',
-                style: GoogleFonts.manrope(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13.sp,
-                  color: const Color(0xffFFFFFF).withOpacity(0.88),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 28.h,
-              ),
-              Consumer<Data>(
-                builder: (context, data, widget) =>
-                Image(
-                  width: 46.w,
-                  height: 28.h,
-                  image: AssetImage(
-                    '${data.getCountryIconPath(teamName)}',
+    return Builder(
+      builder: (context) {
+        return Material(
+          color: const Color(0xff0D5C95).withOpacity(0.58),
+          child: InkWell(
+            child: Padding(
+              padding: EdgeInsets.only(top: 48.h),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Consumer<Data>(
+                    builder: (context, data, widget) =>
+                    Image(
+                      height: 56.h,
+                      width: 76.w,
+                      image: AssetImage('${data.getTeamIconPath(teamName)}'),
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Text(
+                    '$teamName',
+                    style: GoogleFonts.manrope(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13.sp,
+                      color: const Color(0xffFFFFFF).withOpacity(0.88),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 28.h,
+                  ),
+                  Consumer<Data>(
+                    builder: (context, data, widget) =>
+                    Image(
+                      width: 46.w,
+                      height: 28.h,
+                      image: AssetImage(
+                        '${data.getCountryIconPath(teamName)}',
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        onTap: (){
-          Future.delayed(
-            const Duration(milliseconds: 250),
-            (){
-              ///TODO..
+            ),
+            onTap: (){
+              Future.delayed(
+                const Duration(milliseconds: 250),
+                (){
+                  ///TODO..
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context){
+                        return const Results();
+                      },
+                    ),
+                  );
+                },
+              );
             },
-          );
-        },
-      ),
+          ),
+        );
+      }
     );
   }
 
