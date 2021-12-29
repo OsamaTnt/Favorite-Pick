@@ -18,7 +18,7 @@ class GamePlayScreen extends StatelessWidget{
         height: 88.h,
         bgColor: const Color(0xff051D47),
         text: sportName,
-        iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(sportName),
+        iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
         bIcon: true,
       ),
       body: Container(

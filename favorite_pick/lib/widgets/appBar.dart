@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, bool bIcon=false}){
+AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, bool? bIcon=false, bool? bTrailingIcon=false,}){
   return AppBar(
     toolbarHeight: height,
     backgroundColor: bgColor,
@@ -17,6 +17,7 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
         color: const Color(0xffFFFFFF).withOpacity(0.88),
       ),
     ):
+    (bTrailingIcon==false)?
     RichText(
       text: TextSpan(
         children: [
@@ -40,7 +41,26 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
           ),
         ],
       ),
+    ):
+    Text(
+      '$text',
+      style: GoogleFonts.manrope(
+        fontWeight: FontWeight.w600,
+        fontSize: 21.sp,
+        color: const Color(0xffFFFFFF).withOpacity(0.88),
+      ),
     ),
+    actions: [
+      Padding(
+        padding: EdgeInsets.only(right: 24.w, bottom: 4.h),
+        child: Image(
+          height: 32.h,
+          width: 32.w,
+          image: const AssetImage('images/downloadIcon.png'),
+        ),
+      ),
+    ],
   );
 
 }
+

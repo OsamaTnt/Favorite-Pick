@@ -12,8 +12,8 @@ class Data extends ChangeNotifier{
     notifyListeners();
   }
 
-  String? getSportIconPath(String? sportName){
-    switch(sportName){
+  String? getSportIconPath(){
+    switch(selectedSport){
       case 'Football': return 'images/SI_Soccer.png';
       case 'Basketball': return 'images/SI_Basketball.png';
       case 'Ice Hockey': return 'images/SI_IceHockey.png';

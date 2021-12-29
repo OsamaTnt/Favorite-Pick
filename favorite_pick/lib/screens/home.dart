@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget{
                 width: double.infinity,
                 child: sportMenuCard(
                   text: data.sports[index],
-                  iconPath: data.getSportIconPath(data.sports[index]),
+                  iconPath: data.getSportIconPath(),
                 ),
               ):
               SizedBox(height: 2.h),
@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => StartScreen(sportName: text),
+                    builder: (context) => const StartScreen(),
                   ),
                 );
               },

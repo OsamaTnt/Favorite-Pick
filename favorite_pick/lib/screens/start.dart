@@ -8,8 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class StartScreen extends StatelessWidget{
-  final String? sportName;
-  const StartScreen({Key? key, this.sportName}): super(key:key);
+  const StartScreen({Key? key}): super(key:key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +16,8 @@ class StartScreen extends StatelessWidget{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        text: sportName,
-        iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(sportName),
+        text: Provider.of<Data>(context, listen:false).selectedSport,
+        iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
         bIcon: true,
       ),
       body: Container(
@@ -75,7 +74,7 @@ class StartScreen extends StatelessWidget{
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GamePlayScreen(sportName: sportName),
+                              builder: (context) => const GamePlayScreen(),
                             ),
                           );
                         },
