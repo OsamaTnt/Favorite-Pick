@@ -17,6 +17,7 @@ class HomeScreen extends StatelessWidget{
         height: 88.h,
         bgColor: const Color(0xff051D47),
         text: 'Choose sports',
+        bTrailingIcon: false,
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

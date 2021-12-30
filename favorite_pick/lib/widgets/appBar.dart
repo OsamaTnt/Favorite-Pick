@@ -8,7 +8,7 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
     toolbarHeight: height,
     backgroundColor: bgColor,
     centerTitle: true,
-    title: (iconPath?.isEmpty==true || iconPath=='' || bIcon==false)?
+    title: (bIcon==false || iconPath?.isEmpty==true || iconPath=='')?
     Text(
       '$text',
       style: GoogleFonts.manrope(
@@ -50,7 +50,9 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
         color: const Color(0xffFFFFFF).withOpacity(0.88),
       ),
     ),
+
     actions: [
+      (bTrailingIcon==true)?
       Padding(
         padding: EdgeInsets.only(right: 24.w, bottom: 4.h),
         child: Image(
@@ -58,9 +60,9 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
           width: 32.w,
           image: const AssetImage('images/downloadIcon.png'),
         ),
-      ),
+      ):
+      const SizedBox.shrink(),
     ],
   );
 
 }
-

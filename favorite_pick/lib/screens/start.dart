@@ -1,3 +1,4 @@
+import 'package:favorite_pick/api.dart' as api_manager;
 import 'package:favorite_pick/data.dart';
 import 'package:favorite_pick/screens/game_play.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
@@ -67,16 +68,18 @@ class StartScreen extends StatelessWidget{
                         ),
                       ),
                     ),
-                    onTap: (){
+                    onTap: () async{
                       Future.delayed(
-                        const Duration(milliseconds: 250),
-                        (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const GamePlayScreen(),
-                            ),
-                          );
+                        const Duration(milliseconds: 0),
+                        () async{
+                          List<Club>? x = await api_manager.APIManager().fetchClubs(sport: 'soccer');
+                          print(x[5].name);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const GamePlayScreen(),
+                          //   ),
+                          // );
                         },
                       );
                     },

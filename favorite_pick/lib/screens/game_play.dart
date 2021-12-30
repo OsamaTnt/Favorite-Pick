@@ -5,11 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:favorite_pick/api.dart';
 
 
-class GamePlayScreen extends StatelessWidget{
-  final String? sportName;
-  const GamePlayScreen({Key? key, this.sportName}): super(key:key);
+class GamePlayScreen extends StatefulWidget{
+  const GamePlayScreen({Key? key}): super(key:key);
+
+  @override
+  _GamePlayScreen createState() => _GamePlayScreen();
+}
+
+
+class _GamePlayScreen extends State<GamePlayScreen>{
+  late List<Club> clubs;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +30,7 @@ class GamePlayScreen extends StatelessWidget{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        text: sportName,
+        text: Provider.of<Data>(context, listen:false).selectedSport,
         iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
         bIcon: true,
       ),
