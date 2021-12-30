@@ -17,7 +17,6 @@ class GamePlayScreen extends StatefulWidget{
 
 
 class _GamePlayScreen extends State<GamePlayScreen>{
-  late List<Club> clubs;
 
   @override
   void initState() {

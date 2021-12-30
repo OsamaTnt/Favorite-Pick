@@ -1,4 +1,4 @@
-import 'package:favorite_pick/api.dart' as api_manager;
+import 'package:favorite_pick/api.dart';
 import 'package:favorite_pick/data.dart';
 import 'package:favorite_pick/screens/game_play.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
@@ -8,8 +8,28 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class StartScreen extends StatelessWidget{
+class StartScreen extends StatefulWidget{
   const StartScreen({Key? key}): super(key:key);
+
+  @override
+  _StartScreen createState() => _StartScreen();
+}
+
+class _StartScreen extends State<StartScreen>{
+
+  Future<void> initGame() async{
+    Provider.of<Data>(context).clubs = await APIManager().fetchClubs(
+      sport: Provider.of<Data>(context).selectedSport.toString(),
+    );
+    print('Done');
+    print(Provider.of<Data>(context).clubs[0].name);
+  }
+
+  @override
+  void initState() {
+    initGame();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +92,12 @@ class StartScreen extends StatelessWidget{
                       Future.delayed(
                         const Duration(milliseconds: 0),
                         () async{
-                          List<Club>? x = await api_manager.APIManager().fetchClubs(sport: 'soccer');
-                          print(x[5].name);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const GamePlayScreen(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const GamePlayScreen(),
+                            ),
+                          );
                         },
                       );
                     },
