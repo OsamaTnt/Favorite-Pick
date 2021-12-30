@@ -29,7 +29,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        text: Provider.of<Data>(context, listen:false).selectedSport,
+        title: Provider.of<Data>(context, listen:false).selectedSport.toString(),
         iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
         bIcon: true,
       ),

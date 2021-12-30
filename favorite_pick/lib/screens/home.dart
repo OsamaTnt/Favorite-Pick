@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        text: 'Choose sports',
+        title: 'Choose sports',
         bTrailingIcon: false,
       ),
       body: Container(
@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget{
     );
   }
 
-  Widget sportMenuCard({String? text, String? iconPath}){
+  Widget sportMenuCard({required String text, String? iconPath}){
     return Builder(
       builder: (context) =>
       Material(
@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget{
                 width: 32.w,
               ),
               title: Text(
-                '$text',
+                Data.getSportTranslation(text),
                 style: GoogleFonts.manrope(
                   fontWeight: FontWeight.w600,
                   fontSize: 21.sp,

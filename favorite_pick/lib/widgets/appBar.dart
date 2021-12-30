@@ -1,16 +1,21 @@
+import 'package:favorite_pick/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, bool? bIcon=false, bool? bTrailingIcon=false,}){
+
+
+AppBar appBar({double? height, Color? bgColor, required String title, String? iconPath, bool? bIcon=false, bool? bTrailingIcon=false,}){
+  String sportTitle = Data.getSportTranslation(title);
+
   return AppBar(
     toolbarHeight: height,
     backgroundColor: bgColor,
     centerTitle: true,
     title: (bIcon==false || iconPath?.isEmpty==true || iconPath=='')?
     Text(
-      '$text',
+      title,
       style: GoogleFonts.manrope(
         fontWeight: FontWeight.w600,
         fontSize: 24.sp,
@@ -32,7 +37,7 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
             text: '\t\t ',
           ),
           TextSpan(
-            text: text,
+            text: sportTitle,
             style: GoogleFonts.manrope(
               fontWeight: FontWeight.w600,
               fontSize: 21.sp,
@@ -43,7 +48,7 @@ AppBar appBar({double? height, Color? bgColor, String? text, String? iconPath, b
       ),
     ):
     Text(
-      '$text',
+      title,
       style: GoogleFonts.manrope(
         fontWeight: FontWeight.w600,
         fontSize: 21.sp,

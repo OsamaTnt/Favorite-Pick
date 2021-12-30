@@ -16,7 +16,7 @@ class ResultScreen extends StatelessWidget{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        text: 'Winner!',
+        title: 'Winner!',
         bIcon: true,
         bTrailingIcon: true,
       ),

@@ -17,16 +17,16 @@ class StartScreen extends StatefulWidget{
 
 class _StartScreen extends State<StartScreen>{
 
-  Future<void> initGame() async{
-    Provider.of<Data>(context).clubs = await APIManager().fetchClubs(
-      sport: Provider.of<Data>(context).selectedSport.toString(),
+  void initGame() async{
+    Provider.of<Data>(context, listen:false).clubs = await APIManager().fetchClubs(
+      sport: Provider.of<Data>(context, listen:false).selectedSport.toString(),
     );
-    print('Done');
-    print(Provider.of<Data>(context).clubs[0].name);
   }
+
 
   @override
   void initState() {
+    super.initState();
     initGame();
   }
 
@@ -37,7 +37,7 @@ class _StartScreen extends State<StartScreen>{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        text: Provider.of<Data>(context, listen:false).selectedSport,
+        title: Provider.of<Data>(context, listen:false).selectedSport.toString(),
         iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
         bIcon: true,
       ),

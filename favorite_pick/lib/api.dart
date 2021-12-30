@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:favorite_pick/data.dart';
+import 'package:provider/provider.dart';
+
 
 class APIManager{
 
@@ -10,8 +12,9 @@ class APIManager{
   String login = 'ayna';
   String token = '12784-OhJLY5mb3BSOx0O';
 
+
   Future<List<Club>> fetchClubs({required String sport}) async {
-    String url = baseURL+'login=$login'+'&token=$token'+'&task=enddata'+'&sport=$sport'+'&league=${Data().sportMap[sport]?['league_id']}';
+    String url = baseURL+'login=$login'+'&token=$token'+'&task=enddata'+'&sport=$sport'+'&league=${Data.sportMap[sport]?['league_id']}';
     List<Club> clubs = [];
     int maxNum = 128;
 
@@ -20,7 +23,7 @@ class APIManager{
       if(r.statusCode==200) {
         dynamic games = jsonDecode(r.body)['games_end'];
         for(var game in games) {
-          if (clubs.length > maxNum) {break;}
+          if (clubs.length >= maxNum) {break;}
           clubs.add(
             Club(
               name: game['home']['name'],
