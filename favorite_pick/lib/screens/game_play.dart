@@ -117,12 +117,18 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                                 child: Consumer<Data>(
                                   builder: (context, data, widget) =>
                                   ShakeAnimatedWidget(
-                                    enabled: data.bShakeClub,
-                                    duration: const Duration(milliseconds: 350),
-                                    shakeAngle: Rotation.deg(z: 10),
+                                    enabled: data.bShakeLeftClub,
+                                    duration: const Duration(milliseconds: 250),
+                                    shakeAngle: Rotation.deg(z: 8),
                                     curve: Curves.linear,
                                     child: teamCard(
                                       club: data.selectedClub,
+                                      shakeCallback: () async{
+                                        data.shakeLeftClub(true);
+                                        await Future.delayed(const Duration(milliseconds: 1000), (){
+                                          data.shakeLeftClub(false);
+                                        });
+                                      },
                                     ),
                                   ),
                                 ),
@@ -137,8 +143,20 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                                 width: double.infinity,
                                 child: Consumer<Data>(
                                   builder: (context, data, widget) =>
-                                  teamCard(
-                                    club: data.clubs[data.roundIndex],
+                                  ShakeAnimatedWidget(
+                                    enabled: data.bShakeRightClub,
+                                    duration: const Duration(milliseconds: 250),
+                                    shakeAngle: Rotation.deg(z: 8),
+                                    curve: Curves.linear,
+                                    child: teamCard(
+                                      club: data.clubs[data.roundIndex],
+                                      shakeCallback: () async{
+                                        data.shakeRightClub(true);
+                                        await Future.delayed(const Duration(milliseconds: 1000), (){
+                                          data.shakeRightClub(false);
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -165,9 +183,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
     );
   }
 
-
-  Widget teamCard({required Club club}){
-    bool bClickable = true;
+  Widget teamCard({required Club club, required Function shakeCallback}){
     return Builder(
       builder: (context) {
         return Consumer<Data>(
@@ -217,18 +233,15 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                 ),
               ),
               onTap: () async{
-                data.updateShakeAnimation(true);
-                if(data.roundIndex < data.getMaxRound()-1) {
-                  data.updateSelectedClub(club);
-                  data.updateRound();
-                }
-                Future.delayed(const Duration(milliseconds: 1400), (){
-                  data.updateShakeAnimation(false);
-                  if(data.roundIndex >= data.getMaxRound()-1) {
+                await shakeCallback();
+                Future.delayed(const Duration(milliseconds: 250), (){
+                  if(data.roundIndex < data.getMaxRound()-1) {
+                    data.updateSelectedClub(club);
+                    data.updateRound();
+                  }else{
                     Navigator.push(context, MaterialPageRoute(builder:(context) => const ResultScreen()));
                   }
-                 },
-               );
+                });
               },
             ),
           ),

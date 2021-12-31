@@ -19,7 +19,8 @@ class Data extends ChangeNotifier{
   List<Club> clubs = [];
   late Club selectedClub;
   int roundIndex = 1;
-  bool bShakeClub = false;
+  bool bShakeLeftClub = false;
+  bool bShakeRightClub = false;
 
   static Map<String, Map<String, String>> sportMap = {
     'soccer': {
@@ -44,7 +45,9 @@ class Data extends ChangeNotifier{
   void init(){
     clubs = [];
     roundIndex = 1;
-    notifyListeners();
+    bShakeLeftClub = false;
+    bShakeRightClub = false;
+    // selectedClub = clubs[0];
   }
 
   static String getSportTranslation(String sportName){
@@ -75,8 +78,13 @@ class Data extends ChangeNotifier{
     notifyListeners();
   }
 
-  void updateShakeAnimation(bool b){
-    bShakeClub = b;
+  void shakeLeftClub(bool value){
+    bShakeLeftClub = value;
+    notifyListeners();
+  }
+
+  void shakeRightClub(bool value){
+    bShakeRightClub = value;
     notifyListeners();
   }
 
@@ -126,7 +134,6 @@ class Data extends ChangeNotifier{
       default : return '';
     }
   }
-
 
 
 }
