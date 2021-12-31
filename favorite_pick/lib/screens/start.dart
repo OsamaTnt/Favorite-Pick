@@ -68,11 +68,8 @@ class StartScreen extends StatelessWidget{
                         ),
                       ),
                       onTap: () async{
-                        Future.delayed(
-                          const Duration(milliseconds: 250),() async{
-                            Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => const GamePlayScreen()));
-                          }
+                        Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const GamePlayScreen()),
                         );
                       }
                     ),

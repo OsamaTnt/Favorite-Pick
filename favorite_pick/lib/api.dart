@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:favorite_pick/data.dart';
 
@@ -8,25 +9,28 @@ class APIManager{
   String baseURL = 'https://spoyer.ru/api/en/get.php?';
   String login = 'ayna';
   String token = '12784-OhJLY5mb3BSOx0O';
-  int maxNum = 128;
+  int maxNum = 65;  //65+65 =130(Max, since there's home & away that are added by 2).
 
   Future<List<Club>> fetchClubs({required String sport}) async {
     String url = baseURL+'login=$login'+'&token=$token'+'&task=enddata'+'&sport=$sport'+'&league=${Data.sportMap[sport]?['league_id']}';
     List<Club> clubs = [];
-
-    //request page $i data
+    int randIndexChunk = Random().nextInt(maxNum);
+    int maxChunk =  (randIndexChunk+maxNum).toInt();
+    //
+    //
     http.Response r = await http.get(Uri.parse(url));
     try{
       if (r.statusCode == 200) {
         dynamic teams = jsonDecode(r.body)['games_end'];
-        for(int i=0; i<(maxNum/2);i++){
+        for(int i=randIndexChunk; i<maxChunk; i++){
+          print('i: $i');
           var team = teams[i]['home'];
           clubs.add(Club(name:team['name'], id:team['id'], image_id:team['image_id'], cc:team['cc']));
           team = teams[i]['away'];
           clubs.add(Club(name:team['name'], id:team['id'], image_id:team['image_id'], cc:team['cc']));
         }
       }
-      print(clubs.length);
+      clubs.shuffle(Random(DateTime.now().second.toInt()));
       return clubs;
 
     }

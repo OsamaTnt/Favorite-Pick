@@ -69,8 +69,7 @@ class Data extends ChangeNotifier{
   }
 
   int getMaxRound(){
-    return 5; //test
-    // return clubs.length;
+    return clubs.length-2;
   }
 
   void updateRound(){
@@ -78,10 +77,10 @@ class Data extends ChangeNotifier{
     notifyListeners();
   }
 
-  void updateSelectedClub(Club club){
+  void updateSelectedClub({required Club club, bool bNotify=false}){
     selectedClub = club;
     selectedClub.increaseStars();
-    notifyListeners();
+    if(bNotify==true){notifyListeners();}
   }
 
   void shakeLeftClub(bool value){
@@ -97,9 +96,7 @@ class Data extends ChangeNotifier{
   void setFavoriteClub(){
     int favIndex = 0;
     for(int i=1; i<getMaxRound(); i++){
-      print('i: $i');
       if(clubs[i].stars > clubs[favIndex].stars){favIndex = i;}
-      print(favIndex);
     }
     //if the last selectedClub have same stars as fav, set it as the favIndex.
     if(clubs[favIndex].stars == selectedClub.stars){favoriteClub = selectedClub;}
@@ -114,7 +111,7 @@ class Data extends ChangeNotifier{
 
   void initClubs(List<Club> clubList){
     clubs = clubList;
-    updateSelectedClub(clubs[0]); //0 is used to init selectedClub;
+    updateSelectedClub(club: clubs[0]); //0 is used to init selectedClub;
     notifyListeners();
   }
 

@@ -1,17 +1,16 @@
+import 'package:animated_widgets/widgets/scale_animated.dart';
 import 'package:favorite_pick/api.dart';
 import 'package:favorite_pick/data.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 
-class ResultScreen extends StatelessWidget{
-  const ResultScreen({Key? key}): super(key:key);
+class ResultScreen extends StatelessWidget {
+  const ResultScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -142,40 +141,46 @@ class ResultScreen extends StatelessWidget{
                 padding: EdgeInsets.only(top: 30.h),
                 child: Consumer<Data>(
                   builder: (context, data, widget) =>
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            height: 100.h,
-                            width: 156.w,
-                            color: const Color(0xff156CAB).withOpacity(0.88),
-                          ),
-                          Image(
-                            height: 78.h,
-                            width: 108.w,
-                            image: NetworkImage(
-                              APIManager().getClubImageURL(sport: data.activeSport, imageID: data.favoriteClub.id),
+                  ScaleAnimatedWidget.tween(
+                    enabled: true,
+                    duration: const Duration(milliseconds: 1000),
+                    scaleDisabled: 0,
+                    scaleEnabled: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: 100.h,
+                              width: 160.w,
+                              color: const Color(0xff156CAB).withOpacity(0.88),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      Text(
-                        data.favoriteClub.name,
-                        style: GoogleFonts.manrope(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 28.sp,
-                          color: const Color(0xffFFFFFF).withOpacity(0.88),
+                            Image(
+                              height: 78.h,
+                              width: 108.w,
+                              image: NetworkImage(
+                                APIManager().getClubImageURL(sport: data.activeSport, imageID: data.favoriteClub.id),
+                              ),
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Text(
+                          data.favoriteClub.name,
+                          style: GoogleFonts.manrope(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 28.sp,
+                            color: const Color(0xffFFFFFF).withOpacity(0.88),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -184,7 +189,6 @@ class ResultScreen extends StatelessWidget{
         }
     );
   }
-
 
 }
 

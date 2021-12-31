@@ -95,7 +95,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                         child: Consumer<Data>(
                           builder: (context, data, widget) =>
                           Text(
-                            '${data.roundIndex}/${data.getMaxRound()}',
+                            (data.roundIndex <= data.getMaxRound())? '${data.roundIndex}/${data.getMaxRound()}': '/',
                             style: GoogleFonts.manrope(
                               fontWeight: FontWeight.w700,
                               fontSize: 21.sp,
@@ -189,6 +189,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
       builder: (context) {
         return Consumer<Data>(
           builder: (context, data, widget) =>
+          (data.roundIndex <= data.getMaxRound())?
           Material(
             color: const Color(0xff0D5C95).withOpacity(0.58),
             child: InkWell(
@@ -203,6 +204,12 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                       width: 76.w,
                       image: NetworkImage(
                         APIManager().getClubImageURL(sport: data.activeSport, imageID: club.id),
+                      ),
+                      errorBuilder: (context, object, track) =>
+                      Image(
+                        height: 56.h,
+                        width: 76.w,
+                        image: AssetImage(Data.getSportIconPath(sport: data.activeSport)),
                       ),
                     ),
                     SizedBox(
@@ -236,19 +243,21 @@ class _GamePlayScreen extends State<GamePlayScreen>{
               onTap: () async{
                 await shakeCallback();
                 Future.delayed(const Duration(milliseconds: 250), (){
-                  if(data.roundIndex < data.getMaxRound()-1) {
-                    data.updateSelectedClub(club);
+                  if(data.roundIndex < data.getMaxRound()) {
+                    data.updateSelectedClub(club: club, bNotify:true);
                     data.updateRound();
                   }else{
-                    data.setFavoriteClub();
-                    Future.delayed(const Duration(milliseconds: 250), () {
+                    Future.delayed(const Duration(milliseconds: 1000), () {
+                      data.updateSelectedClub(club: club);  //notify=false
+                      data.updateRound();
+                      data.setFavoriteClub();
                       Navigator.push(context, MaterialPageRoute(builder:(context) => const ResultScreen()));
                     });
                   }
                 });
               },
             ),
-          ),
+          ): const SizedBox.shrink(),
         );
       }
     );

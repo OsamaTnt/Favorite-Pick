@@ -4,13 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-
-
 AppBar appBar({required String title, bool bLeadingIcon=false, bool bTrailingIcon=false}){
   return AppBar(
     toolbarHeight: 86.h,
     backgroundColor: const Color(0xff051D47),
     centerTitle: true,
+    automaticallyImplyLeading: (bTrailingIcon==true)? false:true,
     title: (bLeadingIcon==false && bTrailingIcon==false)? //home
     Text(
       title,
