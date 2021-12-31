@@ -1,4 +1,3 @@
-import 'package:favorite_pick/api.dart';
 import 'package:favorite_pick/data.dart';
 import 'package:favorite_pick/screens/game_play.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
@@ -8,28 +7,9 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class StartScreen extends StatefulWidget{
+
+class StartScreen extends StatelessWidget{
   const StartScreen({Key? key}): super(key:key);
-
-  @override
-  _StartScreen createState() => _StartScreen();
-}
-
-class _StartScreen extends State<StartScreen>{
-
-  void initGame() async{
-    Provider.of<Data>(context, listen:false).clubs = await APIManager().fetchClubs(
-      sport: Provider.of<Data>(context, listen:false).selectedSport.toString(),
-    );
-  }
-
-
-  @override
-  void initState() {
-    super.initState();
-    initGame();
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +17,7 @@ class _StartScreen extends State<StartScreen>{
       appBar: appBar(
         height: 88.h,
         bgColor: const Color(0xff051D47),
-        title: Provider.of<Data>(context, listen:false).selectedSport.toString(),
+        title: Provider.of<Data>(context, listen:false).activeSport.toString(),
         iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
         bIcon: true,
       ),
@@ -90,17 +70,12 @@ class _StartScreen extends State<StartScreen>{
                     ),
                     onTap: () async{
                       Future.delayed(
-                        const Duration(milliseconds: 0),
-                        () async{
+                        const Duration(milliseconds: 250),() async{
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const GamePlayScreen(),
-                            ),
-                          );
-                        },
+                            context, MaterialPageRoute(builder: (context) => const GamePlayScreen()));
+                        }
                       );
-                    },
+                    }
                   ),
                 ),
               ),

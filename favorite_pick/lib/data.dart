@@ -7,14 +7,19 @@ class Club{
   String id;
   String image_id;
   String cc;
+  int stars=0;  //winning will be based on how many stars the club will have
   Club({required this.name, required this.id, required this.image_id, required this.cc});
 }
+
 
 class Data extends ChangeNotifier{
 
   List<String> sports = ['soccer', 'basketball', 'icehockey', 'baseball'];
-  String selectedSport = 'soccer';
+  String activeSport = 'soccer';
   List<Club> clubs = [];
+  late Club selectedClub;
+  int roundIndex = 1;
+  bool bShakeClub = false;
 
   static Map<String, Map<String, String>> sportMap = {
     'soccer': {
@@ -33,8 +38,14 @@ class Data extends ChangeNotifier{
       'league_name': 'Champions Hockey League',
       'league_id': '152',
     },
-
   };
+
+
+  void init(){
+    clubs = [];
+    roundIndex = 1;
+    notifyListeners();
+  }
 
   static String getSportTranslation(String sportName){
     switch(sportName){
@@ -46,14 +57,52 @@ class Data extends ChangeNotifier{
     }
   }
 
-  void selectSport(String sportName){
-    selectedSport = sportName;
-    print(selectedSport);
+
+  int getMaxRound(){
+    return clubs.length;
+  }
+
+  void updateRound(){
+    roundIndex++;
+    notifyListeners();
+  }
+
+  void updateSelectedClub(Club club){
+    selectedClub = club;
+    if(roundIndex>1){
+      selectedClub.stars++;
+    }
+    notifyListeners();
+  }
+
+  void updateShakeAnimation(bool b){
+    bShakeClub = b;
+    notifyListeners();
+  }
+
+  // int getWinningTeamIndex(){
+  //   int winningIndex = 0;
+  //   for(int i=0; i<getMaxRound(); i++){
+  //     if(clubs[i].stars> clubs[winningIndex].stars){
+  //       winningIndex = i;
+  //     }
+  //   }
+  //   return winningIndex;
+  // }
+
+  void updateActiveSport(String sportName){
+    activeSport = sportName;
+    notifyListeners();
+  }
+
+  void initClubs(List<Club> clubList){
+    clubs = clubList;
+    updateSelectedClub(clubs[0]); //0 is used to init selectedClub;
     notifyListeners();
   }
 
   String getSportIconPath(){
-    switch(selectedSport){
+    switch(activeSport){
       case 'soccer': return 'images/SI_Soccer.png';
       case 'basketball': return 'images/SI_Basketball.png';
       case 'icehockey': return 'images/SI_IceHockey.png';
@@ -62,7 +111,7 @@ class Data extends ChangeNotifier{
     }
   }
 
-  String? getTeamIconPath(String? teamName){
+  String getTeamIconPath(String teamName){
     switch(teamName){
       case 'Paris Saint-Germain': return 'images/Paris Saint-Germain.png';
       case 'Manchester United': return 'images/Manchester United.png';
@@ -70,7 +119,7 @@ class Data extends ChangeNotifier{
     }
   }
 
-  String? getCountryIconPath(String? teamName){
+  String getCountryIconPath(String teamName){
     switch(teamName){
       case 'Paris Saint-Germain': return 'images/France.png';
       case 'Manchester United': return 'images/Uk.png';
@@ -78,8 +127,6 @@ class Data extends ChangeNotifier{
     }
   }
 
-  void setClubs(List<Club> c){
-    clubs = c;
-  }
+
 
 }

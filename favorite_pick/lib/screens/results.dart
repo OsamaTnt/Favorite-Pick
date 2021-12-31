@@ -160,7 +160,8 @@ class ResultScreen extends StatelessWidget{
                           Image(
                             height: 78.h,
                             width: 108.w,
-                            image: AssetImage('${data.getTeamIconPath(teamName)}'),
+                            //image: AssetImage('${data.getTeamIconPath(teamName)}'),
+                            image: AssetImage(''),
                             fit: BoxFit.contain,
                           ),
                         ],
@@ -183,8 +184,7 @@ class ResultScreen extends StatelessWidget{
               ),
               onTap: (){
                 Future.delayed(
-                  const Duration(milliseconds: 250),
-                      (){
+                  const Duration(milliseconds: 250), (){
                     ///TODO..
                     // Navigator.push(
                     //   context,

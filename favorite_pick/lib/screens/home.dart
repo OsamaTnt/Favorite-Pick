@@ -1,3 +1,4 @@
+import 'package:favorite_pick/api.dart';
 import 'package:favorite_pick/screens/start.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -83,18 +84,15 @@ class HomeScreen extends StatelessWidget{
             ),
           ),
           onTap: (){
-            Future.delayed(
-              const Duration(milliseconds: 250),
-              (){
-                Provider.of<Data>(context, listen:false).selectSport(text);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const StartScreen(),
-                  ),
-                );
-              },
-            );
+            Provider.of<Data>(context, listen:false).updateActiveSport(text);
+            Future.delayed(const Duration(milliseconds: 250), () async{
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StartScreen(),
+                ),
+              );
+            });
           },
         ),
       ),

@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:http/http.dart' as http;
 import 'package:favorite_pick/data.dart';
-import 'package:provider/provider.dart';
 
 
 class APIManager{
@@ -11,41 +8,40 @@ class APIManager{
   String baseURL = 'https://spoyer.ru/api/en/get.php?';
   String login = 'ayna';
   String token = '12784-OhJLY5mb3BSOx0O';
-
+  int maxNum = 128;
 
   Future<List<Club>> fetchClubs({required String sport}) async {
     String url = baseURL+'login=$login'+'&token=$token'+'&task=enddata'+'&sport=$sport'+'&league=${Data.sportMap[sport]?['league_id']}';
     List<Club> clubs = [];
-    int maxNum = 128;
 
+    //request page $i data
+    http.Response r = await http.get(Uri.parse(url));
     try{
-      http.Response r = await http.get(Uri.parse(url));
-      if(r.statusCode==200) {
-        dynamic games = jsonDecode(r.body)['games_end'];
-        for(var game in games) {
-          if (clubs.length >= maxNum) {break;}
-          clubs.add(
-            Club(
-              name: game['home']['name'],
-              id: game['home']['id'],
-              image_id: game['home']['image_id'],
-              cc: game['home']['cc'],
-            ),
-          );
-          clubs.add(
-            Club(
-              name: game['away']['name'],
-              id: game['away']['id'],
-              image_id: game['away']['image_id'],
-              cc: game['away']['cc'],
-            ),
-          );
+      if (r.statusCode == 200) {
+        dynamic teams = jsonDecode(r.body)['games_end'];
+        for(int i=0; i<(maxNum/2);i++){
+          var team = teams[i]['home'];
+          clubs.add(Club(name:team['name'], id:team['id'], image_id:team['image_id'], cc:team['cc']));
+          team = teams[i]['away'];
+          clubs.add(Club(name:team['name'], id:team['id'], image_id:team['image_id'], cc:team['cc']));
         }
-        clubs.shuffle(Random(DateTime.now().second));
       }
-    } catch(e){throw('$e');}
+      print(clubs.length);
+      return clubs;
 
-    return clubs;
+    }
+    catch(e){throw('err in fetchClub');}
+
+  }
+
+  Future<bool> bCheckClubData(Club club, String sport) async{
+    http.Response r = await http.get(Uri.parse(getClubImageURL(sport: sport, imageID: club.id)));
+    if(r.statusCode!=200){return false;}
+    else{
+      r = await http.get(Uri.parse(getClubCountryImageURL(cc: club.cc)));
+      if(r.statusCode==200){return true;}
+    }
+    return false; //default
   }
 
   String getClubImageURL ({required String sport, required imageID}) {
@@ -55,5 +51,6 @@ class APIManager{
   String getClubCountryImageURL ({required String cc}) {
     return 'https://spoyer.ru/api/icons/countries/$cc.svg';
   }
+
 
 }
