@@ -1,4 +1,3 @@
-import 'package:favorite_pick/api.dart';
 import 'package:favorite_pick/screens/start.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';

@@ -16,14 +16,12 @@ class APIManager{
     List<Club> clubs = [];
     int randIndexChunk = Random().nextInt(maxNum);
     int maxChunk =  (randIndexChunk+maxNum).toInt();
-    //
-    //
+
     http.Response r = await http.get(Uri.parse(url));
     try{
       if (r.statusCode == 200) {
         dynamic teams = jsonDecode(r.body)['games_end'];
         for(int i=randIndexChunk; i<maxChunk; i++){
-          print('i: $i');
           var team = teams[i]['home'];
           clubs.add(Club(name:team['name'], id:team['id'], image_id:team['image_id'], cc:team['cc']));
           team = teams[i]['away'];
@@ -38,15 +36,15 @@ class APIManager{
 
   }
 
-  Future<bool> bCheckClubData(Club club, String sport) async{
-    http.Response r = await http.get(Uri.parse(getClubImageURL(sport: sport, imageID: club.id)));
-    if(r.statusCode!=200){return false;}
-    else{
-      r = await http.get(Uri.parse(getClubCountryImageURL(cc: club.cc)));
-      if(r.statusCode==200){return true;}
-    }
-    return false; //default
-  }
+  // Future<bool> bCheckClubData(Club club, String sport) async{
+  //   http.Response r = await http.get(Uri.parse(getClubImageURL(sport: sport, imageID: club.id)));
+  //   if(r.statusCode!=200){return false;}
+  //   else{
+  //     r = await http.get(Uri.parse(getClubCountryImageURL(cc: club.cc)));
+  //     if(r.statusCode==200){return true;}
+  //   }
+  //   return false; //default
+  // }
 
   String getClubImageURL ({required String sport, required imageID}) {
     return 'https://spoyer.ru/api/team_img/$sport/$imageID.png';

@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:favorite_pick/data.dart';
-import 'package:favorite_pick/screens/results.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,7 +10,6 @@ import 'package:favorite_pick/api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:animated_widgets/animated_widgets.dart';
-
 
 
 class GamePlayScreen extends StatefulWidget{
@@ -26,10 +23,8 @@ class _GamePlayScreen extends State<GamePlayScreen>{
 
   Future<void> initGame() async{
     Provider.of<Data>(context, listen:false).init();
-    print('start fetching..');
     List<Club> clubList = await APIManager().fetchClubs(sport: Provider.of<Data>(context, listen:false).activeSport);
     Provider.of<Data>(context, listen:false).initClubs(clubList);
-    print('end fetching!');
     return;
   }
 
@@ -251,7 +246,9 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                       data.updateSelectedClub(club: club);  //notify=false
                       data.updateRound();
                       data.setFavoriteClub();
-                      Navigator.push(context, MaterialPageRoute(builder:(context) => const ResultScreen()));
+
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed('/results');
                     });
                   }
                 });

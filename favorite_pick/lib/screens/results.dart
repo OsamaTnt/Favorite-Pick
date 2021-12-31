@@ -81,7 +81,8 @@ class ResultScreen extends StatelessWidget {
                         onTap: (){
                           Future.delayed(
                             const Duration(milliseconds: 250), (){
-                              Navigator.of(context).popAndPushNamed('/start');
+                              Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                              Navigator.of(context).pushNamed('/start');
                             },
                           );
                         },
@@ -114,7 +115,7 @@ class ResultScreen extends StatelessWidget {
                         onTap: (){
                           Future.delayed(
                             const Duration(milliseconds: 250), (){
-                              Navigator.of(context).popAndPushNamed('/');
+                              Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                             },
                           );
                         },
