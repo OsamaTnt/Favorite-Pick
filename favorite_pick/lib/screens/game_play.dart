@@ -125,7 +125,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                                       club: data.selectedClub,
                                       shakeCallback: () async{
                                         data.shakeLeftClub(true);
-                                        await Future.delayed(const Duration(milliseconds: 1000), (){
+                                        await Future.delayed(const Duration(milliseconds: 750), (){
                                           data.shakeLeftClub(false);
                                         });
                                       },
@@ -152,7 +152,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                                       club: data.clubs[data.roundIndex],
                                       shakeCallback: () async{
                                         data.shakeRightClub(true);
-                                        await Future.delayed(const Duration(milliseconds: 1000), (){
+                                        await Future.delayed(const Duration(milliseconds: 750), (){
                                           data.shakeRightClub(false);
                                         });
                                       },
