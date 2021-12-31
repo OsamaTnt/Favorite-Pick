@@ -18,7 +18,8 @@ class Data extends ChangeNotifier{
   String activeSport = 'soccer';
   List<Club> clubs = [];
   late Club selectedClub;
-  int roundIndex = 1;
+  late Club favoriteClub;
+  int roundIndex = 0;
   bool bShakeLeftClub = false;
   bool bShakeRightClub = false;
 
@@ -44,7 +45,7 @@ class Data extends ChangeNotifier{
 
   void init(){
     clubs = [];
-    roundIndex = 1;
+    roundIndex = 0;
     bShakeLeftClub = false;
     bShakeRightClub = false;
     // selectedClub = clubs[0];
@@ -72,9 +73,7 @@ class Data extends ChangeNotifier{
 
   void updateSelectedClub(Club club){
     selectedClub = club;
-    if(roundIndex>1){
-      selectedClub.stars++;
-    }
+    selectedClub.stars++;
     notifyListeners();
   }
 
@@ -88,15 +87,19 @@ class Data extends ChangeNotifier{
     notifyListeners();
   }
 
-  // int getWinningTeamIndex(){
-  //   int winningIndex = 0;
-  //   for(int i=0; i<getMaxRound(); i++){
-  //     if(clubs[i].stars> clubs[winningIndex].stars){
-  //       winningIndex = i;
-  //     }
-  //   }
-  //   return winningIndex;
-  // }
+  void setFavoriteClub(){
+    int favIndex = 0;
+    for(int i=0; i<getMaxRound(); i++){
+      print('i: $i');
+      if(clubs[i].stars> clubs[favIndex].stars){
+        favIndex = i;
+      }
+      print(favIndex);
+    }
+    favoriteClub = clubs[favIndex];
+    notifyListeners();
+
+  }
 
   void updateActiveSport(String sportName){
     activeSport = sportName;

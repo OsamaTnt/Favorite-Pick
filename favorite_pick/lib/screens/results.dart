@@ -1,8 +1,11 @@
+import 'package:favorite_pick/api.dart';
 import 'package:favorite_pick/data.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -12,122 +15,117 @@ class ResultScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(
-        height: 88.h,
-        bgColor: const Color(0xff051D47),
-        title: 'Winner!',
-        bIcon: true,
-        bTrailingIcon: true,
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xff395872), Color(0xff0D3454)],
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+      Scaffold(
+        appBar: appBar(
+          title: 'Winner!',
+          bIcon: true,
+          bTrailingIcon: true,
         ),
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                height: 60.h,
-                width: double.infinity,
-                color: const Color(0xff2179B8).withOpacity(0.88),
-                alignment: Alignment.center,
-                child: Text(
-                  '1/1',  ///TO DO: update this number automatically based on data.
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 21.sp,
-                    color: const Color(0xffFFFFFF).withOpacity(0.88),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xff395872), Color(0xff0D3454)],
+            ),
+          ),
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 60.h,
+                  width: double.infinity,
+                  color: const Color(0xff2179B8).withOpacity(0.88),
+                  alignment: Alignment.center,
+                  child: Text(
+                    '1/1',
+                    style: GoogleFonts.manrope(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 21.sp,
+                      color: const Color(0xffFFFFFF).withOpacity(0.88),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(
-                height: 224.h,
-                width: double.infinity,
-                child: winningTeamCard(
-                  teamName: 'Paris Saint-Germain',
+                SizedBox(
+                  height: 224.h,
+                  width: double.infinity,
+                  child: favoriteTeamCard(),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 20.h),
-                child: Parallelogram(
-                  cutLength: 10.w,
-                  edge: Edge.RIGHT,
-                  child: Material(
-                    color: const Color(0xff6C952B).withOpacity(0.88),
-                    child: InkWell(
-                      child: SizedBox(
-                        width: 290.w,
-                        height: 56.h,
-                        child: Center(
-                          child: Text(
-                            'Replay',
-                            style: GoogleFonts.manrope(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18.sp,
-                              color: const Color(0xffFFFFFF).withOpacity(0.88),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.h),
+                  child: Parallelogram(
+                    cutLength: 10.w,
+                    edge: Edge.RIGHT,
+                    child: Material(
+                      color: const Color(0xff6C952B).withOpacity(0.88),
+                      child: InkWell(
+                        child: SizedBox(
+                          width: 290.w,
+                          height: 56.h,
+                          child: Center(
+                            child: Text(
+                              'Replay',
+                              style: GoogleFonts.manrope(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18.sp,
+                                color: const Color(0xffFFFFFF).withOpacity(0.88),
+                              ),
                             ),
                           ),
                         ),
+                        onTap: (){
+                          Future.delayed(
+                            const Duration(milliseconds: 250), (){
+                              Navigator.of(context).popAndPushNamed('/start');
+                            },
+                          );
+                        },
                       ),
-                      onTap: (){
-                        Future.delayed(
-                          const Duration(milliseconds: 250),
-                          (){
-                            Navigator.of(context).popAndPushNamed('/start');
-                          },
-                        );
-                      },
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.h),
-                child: Parallelogram(
-                  cutLength: 10.w,
-                  edge: Edge.RIGHT,
-                  child: Material(
-                    color: const Color(0xff6C952B).withOpacity(0.88),
-                    child: InkWell(
-                      child: SizedBox(
-                        width: 290.w,
-                        height: 56.h,
-                        child: Center(
-                          child: Text(
-                            'Choose another sport',
-                            style: GoogleFonts.manrope(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18.sp,
-                              color: const Color(0xffFFFFFF).withOpacity(0.88),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.h),
+                  child: Parallelogram(
+                    cutLength: 10.w,
+                    edge: Edge.RIGHT,
+                    child: Material(
+                      color: const Color(0xff6C952B).withOpacity(0.88),
+                      child: InkWell(
+                        child: SizedBox(
+                          width: 290.w,
+                          height: 56.h,
+                          child: Center(
+                            child: Text(
+                              'Choose another sport',
+                              style: GoogleFonts.manrope(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18.sp,
+                                color: const Color(0xffFFFFFF).withOpacity(0.88),
+                              ),
                             ),
                           ),
                         ),
+                        onTap: (){
+                          Future.delayed(
+                            const Duration(milliseconds: 250), (){
+                              Navigator.of(context).popAndPushNamed('/');
+                            },
+                          );
+                        },
                       ),
-                      onTap: (){
-                        Future.delayed(
-                          const Duration(milliseconds: 250),
-                          (){
-                            Navigator.of(context).popAndPushNamed('/');
-                            ///Todo reset everything.
-                          },
-                        );
-                      },
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -135,7 +133,7 @@ class ResultScreen extends StatelessWidget{
   }
 
 
-  Widget winningTeamCard({String? teamName}){
+  Widget favoriteTeamCard(){
     return Builder(
         builder: (context) {
           return Material(
@@ -143,12 +141,12 @@ class ResultScreen extends StatelessWidget{
             child: InkWell(
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Consumer<Data>(
-                      builder: (context, data, widget) =>
+                child: Consumer<Data>(
+                  builder: (context, data, widget) =>
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
                       Stack(
                         alignment: Alignment.center,
                         children: [
@@ -160,43 +158,28 @@ class ResultScreen extends StatelessWidget{
                           Image(
                             height: 78.h,
                             width: 108.w,
-                            //image: AssetImage('${data.getTeamIconPath(teamName)}'),
-                            image: AssetImage(''),
-                            fit: BoxFit.contain,
+                            image: NetworkImage(
+                              APIManager().getClubImageURL(sport: data.activeSport, imageID: data.favoriteClub.id),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    Text(
-                      '$teamName',
-                      style: GoogleFonts.manrope(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 28.sp,
-                        color: const Color(0xffFFFFFF).withOpacity(0.88),
+                      SizedBox(
+                        height: 15.h,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                      Text(
+                        data.favoriteClub.name,
+                        style: GoogleFonts.manrope(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28.sp,
+                          color: const Color(0xffFFFFFF).withOpacity(0.88),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              onTap: (){
-                Future.delayed(
-                  const Duration(milliseconds: 250), (){
-                    ///TODO..
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context){
-                    //       return const ResultScreen();
-                    //     },
-                    //   ),
-                    // );
-                  },
-                );
-              },
             ),
           );
         }

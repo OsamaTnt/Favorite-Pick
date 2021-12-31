@@ -13,46 +13,47 @@ class HomeScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(
-        height: 88.h,
-        bgColor: const Color(0xff051D47),
-        title: 'Choose sports',
-        bTrailingIcon: false,
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xff395872), Color(0xff0D3454)],
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+      Scaffold(
+        appBar: appBar(
+          title: 'Choose sports',
+          bTrailingIcon: false,
         ),
-        child: ListView.separated(
-          itemCount: Provider.of<Data>(context).sports.length + 1,
-          itemBuilder: (context, index){
-            return Consumer<Data>(
-              builder: (context, data, widget) =>
-              (index < data.sports.length)?
-              SizedBox(
-                height: 76.h,
-                width: double.infinity,
-                child: sportMenuCard(
-                  text: data.sports[index],
-                  iconPath: data.getSportIconPath(),
-                ),
-              ):
-              SizedBox(height: 2.h),
-            );
-          },
-          separatorBuilder: (context, index){
-            return Container(
-              height: 1.h,
-              color: const Color(0xff6e9dbf),
-            );
-          },
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xff395872), Color(0xff0D3454)],
+            ),
+          ),
+          child: ListView.separated(
+            itemCount: Provider.of<Data>(context).sports.length + 1,
+            itemBuilder: (context, index){
+              return Consumer<Data>(
+                builder: (context, data, widget) =>
+                (index < data.sports.length)?
+                SizedBox(
+                  height: 76.h,
+                  width: double.infinity,
+                  child: sportMenuCard(
+                    text: data.sports[index],
+                    iconPath: data.getSportIconPath(),
+                  ),
+                ):
+                SizedBox(height: 2.h),
+              );
+            },
+            separatorBuilder: (context, index){
+              return Container(
+                height: 1.h,
+                color: const Color(0xff6e9dbf),
+              );
+            },
+          ),
         ),
       ),
     );

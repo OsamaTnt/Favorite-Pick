@@ -4,6 +4,7 @@ import 'package:favorite_pick/data.dart';
 import 'package:favorite_pick/screens/results.dart';
 import 'package:favorite_pick/widgets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -37,147 +38,148 @@ class _GamePlayScreen extends State<GamePlayScreen>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(
-        height: 88.h,
-        bgColor: const Color(0xff051D47),
-        title: Provider.of<Data>(context, listen:false).activeSport.toString(),
-        iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
-        bIcon: true,
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xff395872), Color(0xff0D3454)],
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+      Scaffold(
+        appBar: appBar(
+          title: Provider.of<Data>(context, listen:false).activeSport.toString(),
+          iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
+          bIcon: true,
         ),
-        child: FutureBuilder(
-          future: initGame(),
-          builder: (context, snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting){
-              return Align(
-                alignment: Alignment.center,
-                child: SpinKitPianoWave(
-                  color: const Color(0xff051D47).withOpacity(0.88),
-                  size: 100.r,
-                ),
-              );
-            }
-            else if(snapshot.hasError){
-              return Center(
-                child: Text(
-                  'Failed to start, restart the app or try again',
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18.sp,
-                    color: const Color(0xffFFFFFF).withOpacity(0.88),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xff395872), Color(0xff0D3454)],
+            ),
+          ),
+          child: FutureBuilder(
+            future: initGame(),
+            builder: (context, snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return Align(
+                  alignment: Alignment.center,
+                  child: SpinKitPianoWave(
+                    color: const Color(0xff051D47).withOpacity(0.88),
+                    size: 100.r,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-            else{
-              return SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      height: 64.h,
-                      width: double.infinity,
-                      color: const Color(0xff2179B8).withOpacity(0.88),
-                      alignment: Alignment.center,
-                      child: Consumer<Data>(
-                        builder: (context, data, widget) =>
-                        Text(
-                          '${data.roundIndex}/${data.getMaxRound()}',
-                          style: GoogleFonts.manrope(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 21.sp,
-                            color: const Color(0xffFFFFFF).withOpacity(0.88),
+                );
+              }
+              else if(snapshot.hasError){
+                return Center(
+                  child: Text(
+                    'Failed to start, restart the app or try again',
+                    style: GoogleFonts.manrope(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18.sp,
+                      color: const Color(0xffFFFFFF).withOpacity(0.88),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }
+              else{
+                return SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        height: 64.h,
+                        width: double.infinity,
+                        color: const Color(0xff2179B8).withOpacity(0.88),
+                        alignment: Alignment.center,
+                        child: Consumer<Data>(
+                          builder: (context, data, widget) =>
+                          Text(
+                            '${data.roundIndex+1}/${data.getMaxRound()}',
+                            style: GoogleFonts.manrope(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 21.sp,
+                              color: const Color(0xffFFFFFF).withOpacity(0.88),
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                    Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 240.h,
-                                width: double.infinity,
-                                child: Consumer<Data>(
-                                  builder: (context, data, widget) =>
-                                  ShakeAnimatedWidget(
-                                    enabled: data.bShakeLeftClub,
-                                    duration: const Duration(milliseconds: 250),
-                                    shakeAngle: Rotation.deg(z: 8),
-                                    curve: Curves.linear,
-                                    child: teamCard(
-                                      club: data.selectedClub,
-                                      shakeCallback: () async{
-                                        data.shakeLeftClub(true);
-                                        await Future.delayed(const Duration(milliseconds: 750), (){
-                                          data.shakeLeftClub(false);
-                                        });
-                                      },
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 240.h,
+                                  width: double.infinity,
+                                  child: Consumer<Data>(
+                                    builder: (context, data, widget) =>
+                                    ShakeAnimatedWidget(
+                                      enabled: data.bShakeLeftClub,
+                                      duration: const Duration(milliseconds: 250),
+                                      shakeAngle: Rotation.deg(z: 8),
+                                      curve: Curves.linear,
+                                      child: teamCard(
+                                        club: data.selectedClub,
+                                        shakeCallback: () async{
+                                          data.shakeLeftClub(true);
+                                          await Future.delayed(const Duration(milliseconds: 750), (){
+                                            data.shakeLeftClub(false);
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 240.h,
-                                width: double.infinity,
-                                child: Consumer<Data>(
-                                  builder: (context, data, widget) =>
-                                  ShakeAnimatedWidget(
-                                    enabled: data.bShakeRightClub,
-                                    duration: const Duration(milliseconds: 250),
-                                    shakeAngle: Rotation.deg(z: 8),
-                                    curve: Curves.linear,
-                                    child: teamCard(
-                                      club: data.clubs[data.roundIndex],
-                                      shakeCallback: () async{
-                                        data.shakeRightClub(true);
-                                        await Future.delayed(const Duration(milliseconds: 750), (){
-                                          data.shakeRightClub(false);
-                                        });
-                                      },
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 240.h,
+                                  width: double.infinity,
+                                  child: Consumer<Data>(
+                                    builder: (context, data, widget) =>
+                                    ShakeAnimatedWidget(
+                                      enabled: data.bShakeRightClub,
+                                      duration: const Duration(milliseconds: 250),
+                                      shakeAngle: Rotation.deg(z: 8),
+                                      curve: Curves.linear,
+                                      child: teamCard(
+                                        club: data.clubs[data.roundIndex],
+                                        shakeCallback: () async{
+                                          data.shakeRightClub(true);
+                                          await Future.delayed(const Duration(milliseconds: 750), (){
+                                            data.shakeRightClub(false);
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 48.h),
-                          child: Image(
-                            height: 56.h,
-                            width: 88.w,
-                            image: const AssetImage('images/vs1.png'),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 48.h),
+                            child: Image(
+                              height: 56.h,
+                              width: 88.w,
+                              image: const AssetImage('images/vs1.png'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }
             }
-          }
+          ),
         ),
       ),
     );
@@ -239,7 +241,10 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                     data.updateSelectedClub(club);
                     data.updateRound();
                   }else{
-                    Navigator.push(context, MaterialPageRoute(builder:(context) => const ResultScreen()));
+                    data.setFavoriteClub();
+                    Future.delayed(const Duration(milliseconds: 250), () {
+                      Navigator.push(context, MaterialPageRoute(builder:(context) => const ResultScreen()));
+                    });
                   }
                 });
               },

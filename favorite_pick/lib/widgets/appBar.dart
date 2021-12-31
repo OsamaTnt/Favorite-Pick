@@ -6,12 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-AppBar appBar({double? height, Color? bgColor, required String title, String? iconPath, bool? bIcon=false, bool? bTrailingIcon=false,}){
+AppBar appBar({required String title, String? iconPath, bool? bIcon=false, bool? bTrailingIcon=false,}){
   String sportTitle = Data.getSportTranslation(title);
 
   return AppBar(
-    toolbarHeight: height,
-    backgroundColor: bgColor,
+    toolbarHeight: 86.h,
+    backgroundColor: const Color(0xff051D47),
     centerTitle: true,
     title: (bIcon==false || iconPath?.isEmpty==true || iconPath=='')?
     Text(
