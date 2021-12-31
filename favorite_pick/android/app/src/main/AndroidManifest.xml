@@ -3,7 +3,7 @@
    <application
         android:label="favorite_pick"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/fav_pick_icon1">
         <activity
             android:name=".MainActivity"
             android:exported="true"
