@@ -18,8 +18,7 @@ class StartScreen extends StatelessWidget{
       Scaffold(
         appBar: appBar(
           title: Provider.of<Data>(context, listen:false).activeSport.toString(),
-          iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
-          bIcon: true,
+          bLeadingIcon: true,
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,

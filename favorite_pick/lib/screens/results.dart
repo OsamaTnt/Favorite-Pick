@@ -20,7 +20,6 @@ class ResultScreen extends StatelessWidget{
       Scaffold(
         appBar: appBar(
           title: 'Winner!',
-          bIcon: true,
           bTrailingIcon: true,
         ),
         body: Container(

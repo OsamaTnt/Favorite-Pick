@@ -9,14 +9,19 @@ class Club{
   String cc;
   int stars=0;  //winning will be based on how many stars the club will have
   Club({required this.name, required this.id, required this.image_id, required this.cc});
+
+  void increaseStars(){
+    stars++;
+  }
+
 }
 
 
 class Data extends ChangeNotifier{
 
   List<String> sports = ['soccer', 'basketball', 'icehockey', 'baseball'];
-  String activeSport = 'soccer';
   List<Club> clubs = [];
+  late String activeSport;
   late Club selectedClub;
   late Club favoriteClub;
   int roundIndex = 0;
@@ -27,43 +32,45 @@ class Data extends ChangeNotifier{
     'soccer': {
       'league_name': 'UEFA Champions League',
       'league_id': '1040',
+      'header': 'Football',
+      'icon_path': 'images/SI_Soccer.png',
+
     },
     'basketball': {
       'league_name': 'Basketball Champions League',
       'league_id': '2104',
+      'header': 'Basketball',
+      'icon_path': 'images/SI_Basketball.png',
     },
     'baseball': {
       'league_name': 'MLB',
       'league_id': '225',
+      'header': 'Baseball',
+      'icon_path': 'images/SI_Baseball.png',
     },
     'icehockey': {
       'league_name': 'Champions Hockey League',
       'league_id': '152',
+      'header': 'Ice Hockey',
+      'icon_path': 'images/SI_IceHockey.png',
     },
   };
 
-
   void init(){
     clubs = [];
-    roundIndex = 0;
+    roundIndex = 1;
     bShakeLeftClub = false;
     bShakeRightClub = false;
-    // selectedClub = clubs[0];
   }
 
-  static String getSportTranslation(String sportName){
-    switch(sportName){
-      case 'soccer': return 'Football';
-      case 'basketball': return 'Basketball';
-      case 'baseball': return 'Baseball';
-      case 'icehockey': return 'Ice Hockey';
-      default: return '';
-    }
+  static String getSportHeader({required String sport}){
+    String? header = sportMap[sport]?['header'];
+    return header.toString();
   }
-
 
   int getMaxRound(){
-    return clubs.length;
+    return 5; //test
+    // return clubs.length;
   }
 
   void updateRound(){
@@ -73,7 +80,7 @@ class Data extends ChangeNotifier{
 
   void updateSelectedClub(Club club){
     selectedClub = club;
-    selectedClub.stars++;
+    selectedClub.increaseStars();
     notifyListeners();
   }
 
@@ -89,19 +96,18 @@ class Data extends ChangeNotifier{
 
   void setFavoriteClub(){
     int favIndex = 0;
-    for(int i=0; i<getMaxRound(); i++){
+    for(int i=1; i<getMaxRound(); i++){
       print('i: $i');
-      if(clubs[i].stars> clubs[favIndex].stars){
-        favIndex = i;
-      }
+      if(clubs[i].stars > clubs[favIndex].stars){favIndex = i;}
       print(favIndex);
     }
-    favoriteClub = clubs[favIndex];
+    //if the last selectedClub have same stars as fav, set it as the favIndex.
+    if(clubs[favIndex].stars == selectedClub.stars){favoriteClub = selectedClub;}
+    else{favoriteClub = clubs[favIndex];}
     notifyListeners();
-
   }
 
-  void updateActiveSport(String sportName){
+  void setActiveSport(String sportName){
     activeSport = sportName;
     notifyListeners();
   }
@@ -112,31 +118,9 @@ class Data extends ChangeNotifier{
     notifyListeners();
   }
 
-  String getSportIconPath(){
-    switch(activeSport){
-      case 'soccer': return 'images/SI_Soccer.png';
-      case 'basketball': return 'images/SI_Basketball.png';
-      case 'icehockey': return 'images/SI_IceHockey.png';
-      case 'baseball': return 'images/SI_Baseball.png';
-      default : return '';
-    }
+  static String getSportIconPath({required String sport}){
+    String? path = sportMap[sport]?['icon_path'];
+    return path.toString();
   }
-
-  String getTeamIconPath(String teamName){
-    switch(teamName){
-      case 'Paris Saint-Germain': return 'images/Paris Saint-Germain.png';
-      case 'Manchester United': return 'images/Manchester United.png';
-      default : return '';
-    }
-  }
-
-  String getCountryIconPath(String teamName){
-    switch(teamName){
-      case 'Paris Saint-Germain': return 'images/France.png';
-      case 'Manchester United': return 'images/Uk.png';
-      default : return '';
-    }
-  }
-
 
 }

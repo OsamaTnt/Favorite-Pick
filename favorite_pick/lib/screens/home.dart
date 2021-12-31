@@ -18,7 +18,6 @@ class HomeScreen extends StatelessWidget{
       Scaffold(
         appBar: appBar(
           title: 'Choose sports',
-          bTrailingIcon: false,
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -41,7 +40,6 @@ class HomeScreen extends StatelessWidget{
                   width: double.infinity,
                   child: sportMenuCard(
                     text: data.sports[index],
-                    iconPath: data.getSportIconPath(),
                   ),
                 ):
                 SizedBox(height: 2.h),
@@ -59,7 +57,7 @@ class HomeScreen extends StatelessWidget{
     );
   }
 
-  Widget sportMenuCard({required String text, String? iconPath}){
+  Widget sportMenuCard({required String text}){
     return Builder(
       builder: (context) =>
       Material(
@@ -70,12 +68,12 @@ class HomeScreen extends StatelessWidget{
             child: ListTile(
               contentPadding: EdgeInsets.symmetric(vertical:0, horizontal:32.w),
               leading: Image(
-                image: AssetImage('$iconPath'),
+                image: AssetImage(Data.getSportIconPath(sport: text)),
                 height: 32.h,
                 width: 32.w,
               ),
               title: Text(
-                Data.getSportTranslation(text),
+                Data.getSportHeader(sport: text),
                 style: GoogleFonts.manrope(
                   fontWeight: FontWeight.w600,
                   fontSize: 21.sp,
@@ -85,7 +83,7 @@ class HomeScreen extends StatelessWidget{
             ),
           ),
           onTap: (){
-            Provider.of<Data>(context, listen:false).updateActiveSport(text);
+            Provider.of<Data>(context, listen:false).setActiveSport(text);
             Future.delayed(const Duration(milliseconds: 250), () async{
               Navigator.push(
                 context,

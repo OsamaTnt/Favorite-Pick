@@ -43,8 +43,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
       Scaffold(
         appBar: appBar(
           title: Provider.of<Data>(context, listen:false).activeSport.toString(),
-          iconPath: Provider.of<Data>(context, listen:false).getSportIconPath(),
-          bIcon: true,
+          bLeadingIcon: true,
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -96,7 +95,7 @@ class _GamePlayScreen extends State<GamePlayScreen>{
                         child: Consumer<Data>(
                           builder: (context, data, widget) =>
                           Text(
-                            '${data.roundIndex+1}/${data.getMaxRound()}',
+                            '${data.roundIndex}/${data.getMaxRound()}',
                             style: GoogleFonts.manrope(
                               fontWeight: FontWeight.w700,
                               fontSize: 21.sp,

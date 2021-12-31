@@ -6,14 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-AppBar appBar({required String title, String? iconPath, bool? bIcon=false, bool? bTrailingIcon=false,}){
-  String sportTitle = Data.getSportTranslation(title);
-
+AppBar appBar({required String title, bool bLeadingIcon=false, bool bTrailingIcon=false}){
   return AppBar(
     toolbarHeight: 86.h,
     backgroundColor: const Color(0xff051D47),
     centerTitle: true,
-    title: (bIcon==false || iconPath?.isEmpty==true || iconPath=='')?
+    title: (bLeadingIcon==false && bTrailingIcon==false)? //home
     Text(
       title,
       style: GoogleFonts.manrope(
@@ -22,13 +20,13 @@ AppBar appBar({required String title, String? iconPath, bool? bIcon=false, bool?
         color: const Color(0xffFFFFFF).withOpacity(0.88),
       ),
     ):
-    (bTrailingIcon==false)?
+    (bLeadingIcon==true && bTrailingIcon==false)? //start, game_play
     RichText(
       text: TextSpan(
         children: [
           WidgetSpan(
             child: Image(
-              image: AssetImage('$iconPath'),
+              image: AssetImage(Data.getSportIconPath(sport: title)),
               height: 22.h,
               width: 22.w,
             ),
@@ -37,7 +35,7 @@ AppBar appBar({required String title, String? iconPath, bool? bIcon=false, bool?
             text: '\t\t ',
           ),
           TextSpan(
-            text: sportTitle,
+            text: Data.getSportHeader(sport: title),
             style: GoogleFonts.manrope(
               fontWeight: FontWeight.w600,
               fontSize: 21.sp,
@@ -47,7 +45,7 @@ AppBar appBar({required String title, String? iconPath, bool? bIcon=false, bool?
         ],
       ),
     ):
-    Text(
+    Text( //result
       title,
       style: GoogleFonts.manrope(
         fontWeight: FontWeight.w600,
